@@ -2,8 +2,17 @@
 import { render } from "solid-js/web";
 
 import "./index.css";
-import App from "./App";
+import App from "./modules/App";
+
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+
+import * as dat from "dat.gui";
+
+import psVertexShader from "./shaders/patternShader/vertex.glsl";
+import psFragmentShader from "./shaders/patternShader/fragment.glsl";
+
+const gui = new dat.GUI();
 
 const root = document.getElementById("root") as HTMLElement;
 
@@ -26,12 +35,26 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 //Initializing
-camera.position.setZ(30);
+camera.position.setZ(1);
 renderer.render(scene, camera);
+const controls = new OrbitControls(camera, renderer.domElement);
 
-//Boiler Plate Code
+//CODE HERE
+//Geometry
+const geometry = new THREE.PlaneBufferGeometry(1, 1, 32, 32);
 
-scene.add();
+///Material
+const material = new THREE.ShaderMaterial({
+  vertexShader: psVertexShader,
+  fragmentShader: psFragmentShader,
+  side: THREE.DoubleSide,
+});
+
+const mesh = new THREE.Mesh(geometry, material);
+
+//END OF CODE
+
+scene.add(mesh);
 renderer.render(scene, camera);
 
 function animate() {
@@ -44,5 +67,6 @@ function animate() {
   //******** */
   //Render Call
   renderer.render(scene, camera);
+  controls.update();
 }
 animate();
