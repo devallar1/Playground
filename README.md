@@ -1,3 +1,6 @@
+## PLAYGROUND
+Hi! This is my Starter Template that includes THREE, SOLIDJS and TailwindCSS
+
 ## Usage
 
 Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
